@@ -29,7 +29,7 @@ sum loop len = len * loop + (sum (loop-1) len)
 printStep line = do
   let word = ord line
   let loop = (read (word !! 0) :: Int)
-  let len = length (word !! 1)
+  let len = length (strip (word !! 1))
   forM_ [1..loop] $ \i  -> do
     forM_ [1..i] $ \j  -> do
       putStr $ strip (word !! 1)
