@@ -1,3 +1,4 @@
+import Prelude hiding (sum)
 import Control.Monad
 import Data.Function(on)
 import System.Exit
@@ -16,18 +17,24 @@ ord = filter (not . all isColon) . groupBy (on (==) isColon)
 lstrip [] = []
 lstrip xs'@(x:xs) | x == ' '  = lstrip xs
                   | otherwise = xs'
+                                  
 rstrip = reverse . lstrip . reverse
+
 strip = lstrip . rstrip
 
+sum :: Int -> Int -> Int
+sum 0 _ = 0
+sum loop len = len * loop + (sum (loop-1) len)
+
 printStep line = do
-  let sum = 13
   let word = ord line
   let loop = (read (word !! 0) :: Int)
+  let len = length (word !! 1)
   forM_ [1..loop] $ \i  -> do
     forM_ [1..i] $ \j  -> do
       putStr $ strip (word !! 1)
     putStr "\n"
-  return 13
+  return $ sum loop len
 
 main = do
   args <- getArgs
